@@ -13,6 +13,7 @@
     <div class="brand">🎭🐍 <span>Playwright Academy</span></div>
     <nav id="nav">
       <button data-tab="home" class="active">หน้าแรก</button>
+      <button data-tab="know">🎬 เรื่องที่ควรรู้</button>
       <button data-tab="basics">พื้นฐาน</button>
       <button data-tab="usecases">Use Cases</button>
       <button data-tab="dept">ไอเดียตามแผนก</button>
@@ -31,7 +32,8 @@
           คลิก พิมพ์ กรอกฟอร์ม ดาวน์โหลดไฟล์ อ่านข้อมูล ถ่ายภาพหน้าจอ — แต่เร็วกว่า ไม่เหนื่อย และทำได้ตลอด 24 ชั่วโมง</p>
         <p class="lead">และเมื่อจับคู่กับ <b>AI</b> คุณไม่จำเป็นต้องเขียนโค้ดเองทั้งหมด — แค่ <b>อธิบายงานเป็นภาษาคน</b> แล้วให้ AI เขียน script ให้ หรือให้ script เรียก AI มาช่วยคิด/สรุป/จัดหมวดข้อมูลระหว่างทาง</p>
         <div class="cta">
-          <button class="btn primary" data-goto="usecases">ดูว่าทำอะไรได้บ้าง →</button>
+          <button class="btn primary" data-goto="know">▶ ดูวิดีโอ 1 นาที</button>
+          <button class="btn" data-goto="usecases">ดูว่าทำอะไรได้บ้าง →</button>
           <button class="btn" data-goto="builder">สร้าง Prompt ให้ AI เขียน Script</button>
         </div>
       </div>
@@ -65,6 +67,21 @@
           <div class="time">⏱️ ~2 นาที (ไม่ต้องนั่งเฝ้า)</div>
         </div>
       </div>
+    </section>
+
+    <!-- THINGS TO KNOW (VIDEO) -->
+    <section id="know" class="tab">
+      <h2>🎬 5 เรื่องที่ควรรู้ ก่อนใช้ Python + Playwright + AI</h2>
+      <p class="lead">วิดีโอสั้น ~1 นาที สรุปแนวคิดสำคัญ — กดที่บทด้านล่างเพื่อข้ามไปดูเฉพาะเรื่องที่สนใจ</p>
+      <div class="video-wrap">
+        <video id="knowVideo" controls preload="metadata" poster="media/poster.jpg" playsinline>
+          <source src="media/things-to-know.mp4" type="video/mp4" />
+          เบราว์เซอร์ของคุณไม่รองรับการเล่นวิดีโอ
+        </video>
+      </div>
+      <div class="chapters" id="chapters"></div>
+      <div class="grid3" id="knowCards"></div>
+      <p class="muted">🛠️ วิดีโอนี้สร้างด้วย <b>HyperFrames</b> (เขียนเป็น HTML + GSAP แล้ว render เป็น MP4) — แก้ข้อความได้ที่ <code>video/index.html</code> แล้วรัน <code>npm run render</code></p>
     </section>
 
     <!-- BASICS -->

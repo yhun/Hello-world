@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Sarabun"; font-weight: 400; src: url("assets/fonts/sarabun-thai-400-normal.woff2") format("woff2"); unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC; }
+      @font-face { font-family: "Sarabun"; font-weight: 400; src: url("assets/fonts/sarabun-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Sarabun"; font-weight: 700; src: url("assets/fonts/sarabun-thai-700-normal.woff2") format("woff2"); unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC; }
+      @font-face { font-family: "Sarabun"; font-weight: 700; src: url("assets/fonts/sarabun-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Sarabun"; font-weight: 800; src: url("assets/fonts/sarabun-thai-800-normal.woff2") format("woff2"); unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC; }
+      @font-face { font-family: "Sarabun"; font-weight: 800; src: url("assets/fonts/sarabun-latin-800-normal.woff2") format("woff2"); }
+      @font-face { font-family: "JBMono"; font-weight: 400; src: url("assets/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "JBMono"; font-weight: 600; src: url("assets/fonts/jetbrains-mono-latin-600-normal.woff2") format("woff2"); }
+
+      :root {
+        --ground: #0f172a;
+        --panel: #1e293b;
+        --line: #334155;
+        --ink: #e2e8f0;
+        --muted: #94a3b8;
+        --green: #22c55e;
+        --sky: #38bdf8;
+        --amber: #f59e0b;
+        --red: #ef4444;
+        --violet: #a78bfa;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #root {
+        position: relative; width: 100%; height: 100%;
+        font-family: "Sarabun", sans-serif; color: var(--ink);
+        background: radial-gradient(1200px 700px at 85% -10%, #12324a 0%, transparent 60%),
+                    radial-gradient(900px 600px at -10% 110%, #0f3a26 0%, transparent 60%), var(--ground);
+      }
+      .clip { position: absolute; inset: 0; padding: 110px 140px; display: flex; flex-direction: column; justify-content: center; }
+      .mono { font-family: "JBMono", monospace; }
+      .kicker { font-size: 34px; font-weight: 700; color: var(--green); letter-spacing: 0.04em; margin-bottom: 18px; }
+      .h { font-size: 84px; font-weight: 800; line-height: 1.2; }
+      .sub { font-size: 40px; color: var(--muted); margin-top: 22px; line-height: 1.5; }
+      .card { background: var(--panel); border: 2px solid var(--line); border-radius: 28px; padding: 40px 44px; }
+      .row { display: flex; gap: 40px; margin-top: 56px; }
+      .row > * { flex: 1; }
+      .emoji { font-size: 96px; line-height: 1; margin-bottom: 18px; }
+      .ct { font-size: 52px; font-weight: 800; margin-bottom: 10px; }
+      .cd { font-size: 34px; color: var(--muted); line-height: 1.5; }
+      .pill { display: inline-block; font-size: 28px; font-weight: 700; padding: 6px 22px; border-radius: 999px; }
+
+      /* progress bar + scene counter */
+      #bar { position: absolute; left: 0; bottom: 0; height: 10px; width: 1920px; background: var(--green); transform-origin: 0 50%; transform: scaleX(0); }
+      #brand { position: absolute; left: 140px; bottom: 40px; font-size: 28px; color: var(--muted); }
+
+      /* s1 title */
+      #s1 .num { font-size: 260px; font-weight: 800; color: var(--green); line-height: 1; }
+      #s1 .h { font-size: 96px; }
+      #s1 .tags { display: flex; gap: 20px; margin-top: 44px; }
+      #s1 .tags span { font-size: 36px; font-weight: 700; padding: 10px 30px; border-radius: 999px; border: 2px solid var(--line); background: var(--panel); }
+
+      /* s2 hands + brain */
+      #s2 .plus { flex: 0 0 auto; align-self: center; font-size: 110px; color: var(--muted); }
+
+      /* s4 model bars */
+      .model { display: flex; align-items: center; gap: 36px; margin-top: 34px; }
+      .model .name { width: 300px; font-size: 52px; font-weight: 800; }
+      .model .track { flex: 1; height: 78px; background: #0b1220; border-radius: 18px; position: relative; overflow: hidden; border: 2px solid var(--line); }
+      .model .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 16px; transform-origin: 0 50%; }
+      .model .lbl { position: absolute; left: 28px; top: 0; bottom: 0; display: flex; align-items: center; font-size: 32px; font-weight: 700; color: #04130a; }
+      .model .use { width: 560px; font-size: 32px; color: var(--muted); line-height: 1.35; }
+
+      /* s5 code compare */
+      .code { font-family: "JBMono", monospace; font-size: 38px; background: #0b1220; border-radius: 22px; padding: 34px 40px; border: 3px solid var(--line); }
+      .code.bad { border-color: var(--red); }
+      .code.good { border-color: var(--green); }
+      .verdict { font-size: 36px; font-weight: 700; margin-top: 20px; }
+
+      /* s6 safety grid */
+      .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 50px; }
+      .safe { display: flex; gap: 30px; align-items: center; background: var(--panel); border: 2px solid var(--line); border-left: 10px solid var(--amber); border-radius: 24px; padding: 30px 36px; }
+      .safe .e { font-size: 72px; }
+      .safe b { display: block; font-size: 42px; }
+      .safe span { font-size: 30px; color: var(--muted); }
+
+      /* s7 steps */
+      .steps { display: flex; align-items: stretch; gap: 22px; margin-top: 60px; }
+      .step { flex: 1; background: var(--panel); border: 2px solid var(--sky); border-radius: 26px; padding: 34px 30px; }
+      .step .n { font-size: 30px; font-weight: 800; color: var(--sky); }
+      .step .t { font-size: 44px; font-weight: 800; margin: 8px 0; }
+      .step .d { font-size: 30px; color: var(--muted); line-height: 1.4; }
+      .arrow { align-self: center; font-size: 60px; color: var(--sky); }
+
+      /* s8 outro */
+      #s8 { align-items: center; text-align: center; }
+      #s8 .h { font-size: 100px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="72" data-width="1920" data-height="1080">
+
+      <!-- S1: Title -->
+      <section id="s1" class="clip" data-start="0" data-duration="6" data-track-index="0">
+        <div class="num">5</div>
+        <div class="h">เรื่องที่ควรรู้ ก่อนใช้<br /><span style="color: var(--green)">Python + Playwright + AI</span></div>
+        <div class="tags">
+          <span>🎭 Playwright</span><span>🐍 Python</span><span>🤖 AI</span>
+        </div>
+      </section>
+
+      <!-- S2: Hands + brain -->
+      <section id="s2" class="clip" data-start="6" data-duration="9" data-track-index="0">
+        <div class="kicker">เรื่องที่ 1</div>
+        <div class="h">Playwright คือ “มือ” · AI คือ “สมอง”</div>
+        <div class="row">
+          <div class="card" id="s2a">
+            <div class="emoji">🖐️</div>
+            <div class="ct">Playwright</div>
+            <div class="cd">คลิก · พิมพ์ · กรอกฟอร์ม<br />ดาวน์โหลด · อ่านข้อมูลจากเว็บ</div>
+          </div>
+          <div class="plus" id="s2p">+</div>
+          <div class="card" id="s2b">
+            <div class="emoji">🧠</div>
+            <div class="ct">AI (Claude)</div>
+            <div class="cd">สรุป · จัดหมวด · แปล<br />อ่านเอกสาร · เขียนโค้ดให้</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S3: Script vs Agent -->
+      <section id="s3" class="clip" data-start="15" data-duration="10" data-track-index="0">
+        <div class="kicker">เรื่องที่ 2</div>
+        <div class="h" style="font-size: 76px">งานซ้ำ → ใช้ Script<br />งานไม่แน่นอน → ใช้ AI Agent</div>
+        <div class="row">
+          <div class="card" id="s3a" style="border-color: var(--green)">
+            <div class="emoji">📜</div>
+            <div class="ct" style="color: var(--green)">Script (AI เขียนให้ครั้งเดียว)</div>
+            <div class="cd">✓ เร็ว · ถูก · ผลเหมือนเดิมทุกครั้ง<br />✓ เหมาะกับงานประจำวัน</div>
+          </div>
+          <div class="card" id="s3b" style="border-color: var(--violet)">
+            <div class="emoji">🕹️</div>
+            <div class="ct" style="color: var(--violet)">AI Agent คุม Browser เอง</div>
+            <div class="cd">✓ ยืดหยุ่น หน้าเว็บเปลี่ยนก็ยังทำได้<br />✗ ช้ากว่า แพงกว่า ต้องมีคนตรวจ</div>
+          </div>
+        </div>
+        <div class="sub" id="s3tip">💡 เคล็ดลับ: ให้ Agent ทำครั้งแรก แล้วสั่งให้ “เขียนเป็น script” ไว้ใช้ซ้ำ</div>
+      </section>
+
+      <!-- S4: Model routing -->
+      <section id="s4" class="clip" data-start="25" data-duration="10" data-track-index="0">
+        <div class="kicker">เรื่องที่ 3</div>
+        <div class="h">เลือก Model ให้เหมาะกับงาน</div>
+        <div style="margin-top: 30px">
+          <div class="model">
+            <div class="name" style="color: var(--green)">Haiku</div>
+            <div class="track"><div class="fill" id="f1" style="width: 30%; background: var(--green)"></div><div class="lbl">ถูก · เร็วมาก</div></div>
+            <div class="use">จัดหมวด · บวก/ลบ · ดึงข้อมูลสั้น ปริมาณเยอะ</div>
+          </div>
+          <div class="model">
+            <div class="name" style="color: var(--amber)">Sonnet</div>
+            <div class="track"><div class="fill" id="f2" style="width: 62%; background: var(--amber)"></div><div class="lbl">สมดุล</div></div>
+            <div class="use">สรุปรายงาน · ร่างอีเมล · เปรียบเทียบข้อมูล</div>
+          </div>
+          <div class="model">
+            <div class="name" style="color: var(--red)">Opus</div>
+            <div class="track"><div class="fill" id="f3" style="width: 95%; background: var(--red)"></div><div class="lbl">เก่งที่สุด</div></div>
+            <div class="use">วิเคราะห์เชิงลึก · เขียน script · งานที่ผิดไม่ได้</div>
+          </div>
+        </div>
+        <div class="sub" id="s4tip">ไม่ต้องใช้ตัวที่เก่งที่สุดกับทุกงาน — เลือกตัวที่ถูกที่สุดที่ยังให้คุณภาพพอ</div>
+      </section>
+
+      <!-- S5: Robust locators -->
+      <section id="s5" class="clip" data-start="35" data-duration="9" data-track-index="0">
+        <div class="kicker">เรื่องที่ 4</div>
+        <div class="h" style="font-size: 76px">หาปุ่มด้วย “ความหมาย”<br />ไม่ใช่ด้วยโค้ดหน้าเว็บ</div>
+        <div class="row">
+          <div id="s5a">
+            <div class="code bad">page.click(<span style="color:#fca5a5">".btn-x23 &gt; div:nth-child(3)"</span>)</div>
+            <div class="verdict" style="color: var(--red)">✗ เว็บปรับดีไซน์นิดเดียวก็พัง</div>
+          </div>
+          <div id="s5b">
+            <div class="code good">page.get_by_role(<span style="color:#86efac">"button"</span>, name=<span style="color:#86efac">"ค้นหา"</span>).click()</div>
+            <div class="verdict" style="color: var(--green)">✓ อ่านรู้เรื่อง ทนต่อการเปลี่ยนแปลง</div>
+          </div>
+        </div>
+        <div class="sub" id="s5tip">ใช้ <span class="mono" style="color: var(--sky)">playwright codegen</span> คลิกเว็บตามปกติ แล้วได้โค้ดแบบนี้อัตโนมัติ</div>
+      </section>
+
+      <!-- S6: Safety -->
+      <section id="s6" class="clip" data-start="44" data-duration="12" data-track-index="0">
+        <div class="kicker" style="color: var(--amber)">เรื่องที่ 5 · สำคัญที่สุด</div>
+        <div class="h">ใช้อย่างปลอดภัย</div>
+        <div class="grid2">
+          <div class="safe" id="k1"><div class="e">🔑</div><div><b>รหัสผ่าน / API Key</b><span>เก็บใน .env หรือ environment variable ห้ามใส่ในโค้ด</span></div></div>
+          <div class="safe" id="k2"><div class="e">🛡️</div><div><b>ข้อมูลลูกค้า / ข้อมูลลับ</b><span>ห้ามส่งเข้า AI ภายนอกโดยไม่ได้รับอนุมัติ</span></div></div>
+          <div class="safe" id="k3"><div class="e">📜</div><div><b>เคารพกฎของเว็บ</b><span>ทำตาม Terms of Service · ไม่ข้าม CAPTCHA · ไม่ยิงถี่</span></div></div>
+          <div class="safe" id="k4"><div class="e">🙋</div><div><b>คนตรวจก่อนกดยืนยัน</b><span>จ่ายเงิน · ลบข้อมูล · ส่งเอกสาร ต้องมีคนอนุมัติ</span></div></div>
+        </div>
+      </section>
+
+      <!-- S7: How to start -->
+      <section id="s7" class="clip" data-start="56" data-duration="10" data-track-index="0">
+        <div class="kicker" style="color: var(--sky)">เริ่มต้นยังไง?</div>
+        <div class="h">4 ขั้นตอนสู่ Automation แรกของคุณ</div>
+        <div class="steps">
+          <div class="step" id="t1"><div class="n">01</div><div class="t">เลือกงาน</div><div class="d">งานซ้ำทุกวัน<br />ใช้เวลา &gt; 15 นาที</div></div>
+          <div class="arrow" id="a1">→</div>
+          <div class="step" id="t2"><div class="n">02</div><div class="t">ให้ AI เขียน</div><div class="d">ใช้ Prompt Builder<br />อธิบายขั้นตอน</div></div>
+          <div class="arrow" id="a2">→</div>
+          <div class="step" id="t3"><div class="n">03</div><div class="t">ทดสอบ</div><div class="d">ข้อมูลน้อย ๆ ก่อน<br />headless=False</div></div>
+          <div class="arrow" id="a3">→</div>
+          <div class="step" id="t4"><div class="n">04</div><div class="t">ตั้งเวลา</div><div class="d">Task Scheduler / cron<br />แล้วแชร์ให้ทีม</div></div>
+        </div>
+      </section>
+
+      <!-- S8: Outro -->
+      <section id="s8" class="clip" data-start="66" data-duration="6" data-track-index="0">
+        <div class="emoji" style="font-size: 140px">🎭🐍🤖</div>
+        <div class="h">ให้ Script ทำงานซ้ำ<br /><span style="color: var(--green)">ให้คนทำงานที่ต้องคิด</span></div>
+        <div class="sub">ดูตัวอย่างโค้ดและ Prompt สำเร็จรูปได้ใน Playwright Academy</div>
+      </section>
+
+      <div id="brand">Playwright Academy · เรื่องที่ควรรู้</div>
+      <div id="bar"></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const ease = "power3.out";
+      const inUp = (sel, at, d = 0.7) => tl.fromTo(sel, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: d, ease }, at);
+      const out = (sel, at) => tl.to(sel, { opacity: 0, duration: 0.4, ease: "power2.in" }, at);
+
+      // progress bar spans the whole film
+      tl.fromTo("#bar", { scaleX: 0 }, { scaleX: 1, duration: 72, ease: "none" }, 0);
+
+      // S1 0–6
+      tl.fromTo("#s1 .num", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.7)" }, 0.2);
+      inUp("#s1 .h", 0.7);
+      tl.fromTo("#s1 .tags span", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.2, ease }, 1.4);
+      out("#s1", 5.5);
+
+      // S2 6–15
+      inUp("#s2 .kicker", 6.2); inUp("#s2 .h", 6.4);
+      tl.fromTo("#s2a", { opacity: 0, x: -120 }, { opacity: 1, x: 0, duration: 0.8, ease }, 7.4);
+      tl.fromTo("#s2p", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 8.4);
+      tl.fromTo("#s2b", { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.8, ease }, 9.0);
+      tl.to(["#s2a", "#s2b"], { scale: 1.04, duration: 0.4, yoyo: true, repeat: 1, ease: "power1.inOut" }, 11.5);
+      out("#s2", 14.5);
+
+      // S3 15–25
+      inUp("#s3 .kicker", 15.2); inUp("#s3 .h", 15.4);
+      inUp("#s3a", 16.6); inUp("#s3b", 17.8);
+      inUp("#s3tip", 20.0);
+      out("#s3", 24.5);
+
+      // S4 25–35
+      inUp("#s4 .kicker", 25.2); inUp("#s4 .h", 25.4);
+      tl.fromTo("#s4 .model", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.6, stagger: 0.5, ease }, 26.4);
+      tl.fromTo("#f1", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease }, 26.8);
+      tl.fromTo("#f2", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease }, 27.3);
+      tl.fromTo("#f3", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease }, 27.8);
+      inUp("#s4tip", 28.6);
+      out("#s4", 34.5);
+
+      // S5 35–44
+      inUp("#s5 .kicker", 35.2); inUp("#s5 .h", 35.4);
+      inUp("#s5a", 36.6);
+      tl.to("#s5a", { opacity: 0.45, duration: 0.5 }, 38.6);
+      inUp("#s5b", 38.6);
+      inUp("#s5tip", 40.4);
+      out("#s5", 43.5);
+
+      // S6 44–56
+      inUp("#s6 .kicker", 44.2); inUp("#s6 .h", 44.4);
+      tl.fromTo(["#k1", "#k2", "#k3", "#k4"], { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 1.2, ease }, 45.6);
+      out("#s6", 55.5);
+
+      // S7 56–66
+      inUp("#s7 .kicker", 56.2); inUp("#s7 .h", 56.4);
+      tl.fromTo(["#t1", "#a1", "#t2", "#a2", "#t3", "#a3", "#t4"], { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.55, ease }, 57.4);
+      out("#s7", 65.5);
+
+      // S8 66–72
+      tl.fromTo("#s8 .emoji", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.7, ease: "back.out(1.7)" }, 66.2);
+      inUp("#s8 .h", 66.8);
+      inUp("#s8 .sub", 67.8);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

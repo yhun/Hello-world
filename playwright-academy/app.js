@@ -700,7 +700,49 @@ $("#builderForm").addEventListener("input", buildPrompt);
 $("#builderForm").addEventListener("change", buildPrompt);
 $("#copyPrompt").onclick = () => copyText($("#promptOut").textContent);
 
+// ===================== THINGS TO KNOW (VIDEO) =====================
+// เวลาเริ่ม (วินาที) ต้องตรงกับ data-start ของแต่ละ scene ใน video/index.html
+const CHAPTERS = [
+  { t: 0, no: "บทนำ", title: "5 เรื่องที่ควรรู้", points: ["Playwright + Python + AI ทำงานร่วมกันอย่างไร"] },
+  { t: 6, no: "เรื่องที่ 1", title: "Playwright คือ “มือ” · AI คือ “สมอง”", points: ["Playwright: คลิก พิมพ์ กรอกฟอร์ม ดาวน์โหลด อ่านข้อมูล", "AI: สรุป จัดหมวด แปล อ่านเอกสาร เขียนโค้ด"] },
+  { t: 15, no: "เรื่องที่ 2", title: "งานซ้ำ → Script · งานไม่แน่นอน → Agent", points: ["Script ที่ AI เขียนให้: เร็ว ถูก ผลเหมือนเดิม", "AI Agent: ยืดหยุ่น แต่ช้า แพง ต้องมีคนตรวจ", "ให้ Agent ทำครั้งแรก แล้วสั่งให้เขียนเป็น script"] },
+  { t: 25, no: "เรื่องที่ 3", title: "เลือก Model ให้เหมาะกับงาน", points: ["Haiku: งานง่าย ปริมาณมาก", "Sonnet: สรุป ร่างอีเมล เปรียบเทียบ", "Opus: วิเคราะห์ลึก เขียน script งานที่ผิดไม่ได้"] },
+  { t: 35, no: "เรื่องที่ 4", title: "หาปุ่มด้วย “ความหมาย”", points: ["ใช้ get_by_role / get_by_label แทน CSS ยาว ๆ", "ใช้ playwright codegen ช่วยสร้างโค้ด"] },
+  { t: 44, no: "เรื่องที่ 5", title: "ใช้อย่างปลอดภัย", points: ["เก็บรหัสผ่าน / API Key ใน .env", "ไม่ส่งข้อมูลลูกค้าเข้า AI โดยไม่ได้รับอนุมัติ", "เคารพ Terms of Service ไม่ข้าม CAPTCHA", "คนตรวจก่อนกดยืนยันธุรกรรม"] },
+  { t: 56, no: "เริ่มต้น", title: "4 ขั้นตอนสู่ Automation แรก", points: ["เลือกงาน → ให้ AI เขียน → ทดสอบ → ตั้งเวลา"] },
+];
+
+function fmtTime(s) { return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
+
+function renderKnow() {
+  const v = $("#knowVideo");
+  const seek = (t) => { v.currentTime = t; v.play().catch(() => {}); };
+  $("#chapters").innerHTML = CHAPTERS.map((c, i) =>
+    `<button class="chip" data-i="${i}"><small>${fmtTime(c.t)}</small>${c.no}</button>`).join("");
+  $("#knowCards").innerHTML = CHAPTERS.slice(1).map((c, i) => `
+    <div class="card know-card" data-i="${i + 1}">
+      <div class="no">${c.no} · ${fmtTime(c.t)}</div>
+      <h3>${c.title}</h3>
+      <ul>${c.points.map((p) => `<li>${p}</li>`).join("")}</ul>
+    </div>`).join("");
+  $$("#chapters .chip, #knowCards .know-card").forEach((el) => (el.onclick = () => seek(CHAPTERS[+el.dataset.i].t)));
+
+  // ไฮไลต์บทที่กำลังเล่น
+  v.addEventListener("timeupdate", () => {
+    let cur = 0;
+    CHAPTERS.forEach((c, i) => { if (v.currentTime >= c.t) cur = i; });
+    $$("#chapters .chip").forEach((b) => b.classList.toggle("active", +b.dataset.i === cur));
+    $$("#knowCards .know-card").forEach((c) => c.classList.toggle("playing", +c.dataset.i === cur));
+  });
+}
+
+// หยุดวิดีโอเมื่อออกจากแท็บ
+$$("#nav button, [data-goto]").forEach((b) => b.addEventListener("click", () => {
+  if ((b.dataset.tab || b.dataset.goto) !== "know") $("#knowVideo").pause();
+}));
+
 // ===================== INIT =====================
+renderKnow();
 $("#aiRouterCode").textContent = AI_ROUTER_CODE;
 renderFilters();
 renderUseCases();

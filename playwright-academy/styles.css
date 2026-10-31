@@ -151,6 +151,15 @@ th { background: var(--panel2); }
 .out-head .btn { margin-left: auto; }
 #promptOut { margin: 0; padding: 16px; white-space: pre-wrap; font-size: 0.85rem; flex: 1; overflow: auto; max-height: 720px; }
 
+.video-wrap { margin-top: 20px; border-radius: var(--radius); overflow: hidden; border: 1px solid #334155; background: #000; aspect-ratio: 16 / 9; }
+.video-wrap video { width: 100%; height: 100%; display: block; }
+.chapters { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 4px; }
+.chapters .chip small { color: inherit; opacity: 0.7; margin-right: 6px; font-family: "JetBrains Mono", monospace; }
+.know-card { cursor: pointer; }
+.know-card.playing { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25); }
+.know-card .no { color: var(--accent); font-weight: 700; font-size: 0.9rem; }
+.know-card ul { margin: 6px 0 0; padding-left: 20px; color: #cbd5e1; }
+
 .roadmap li { margin-bottom: 10px; }
 details { background: var(--panel); border: 1px solid #334155; border-radius: 10px; padding: 12px 18px; margin: 10px 0; }
 summary { cursor: pointer; font-weight: 600; }
