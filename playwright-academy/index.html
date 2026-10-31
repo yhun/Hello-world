@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python + Playwright Academy — Automate งานด้วย Script และ AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">🎭🐍 <span>Playwright Academy</span></div>
+    <nav id="nav">
+      <button data-tab="home" class="active">หน้าแรก</button>
+      <button data-tab="basics">พื้นฐาน</button>
+      <button data-tab="usecases">Use Cases</button>
+      <button data-tab="dept">ไอเดียตามแผนก</button>
+      <button data-tab="ai">AI + Playwright</button>
+      <button data-tab="builder">Prompt Builder</button>
+      <button data-tab="start">เริ่มต้นใช้งาน</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="tab active">
+      <div class="hero">
+        <h1>ให้ <span class="hl">Python + Playwright</span> ทำงานซ้ำ ๆ บนเว็บแทนคุณ</h1>
+        <p class="lead">Playwright คือเครื่องมือที่ให้ Python “ควบคุมเว็บเบราว์เซอร์” ได้เหมือนคนจริง —
+          คลิก พิมพ์ กรอกฟอร์ม ดาวน์โหลดไฟล์ อ่านข้อมูล ถ่ายภาพหน้าจอ — แต่เร็วกว่า ไม่เหนื่อย และทำได้ตลอด 24 ชั่วโมง</p>
+        <p class="lead">และเมื่อจับคู่กับ <b>AI</b> คุณไม่จำเป็นต้องเขียนโค้ดเองทั้งหมด — แค่ <b>อธิบายงานเป็นภาษาคน</b> แล้วให้ AI เขียน script ให้ หรือให้ script เรียก AI มาช่วยคิด/สรุป/จัดหมวดข้อมูลระหว่างทาง</p>
+        <div class="cta">
+          <button class="btn primary" data-goto="usecases">ดูว่าทำอะไรได้บ้าง →</button>
+          <button class="btn" data-goto="builder">สร้าง Prompt ให้ AI เขียน Script</button>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="card stat"><div class="big">🖱️</div><h3>ทำแทนคน</h3><p>คลิก กรอก ส่งฟอร์ม Login ระบบภายใน ทำซ้ำได้เป็นร้อยรายการ</p></div>
+        <div class="card stat"><div class="big">📊</div><h3>ดึงข้อมูล</h3><p>อ่านตาราง/ราคา/สถานะจากเว็บ แล้วบันทึกเป็น Excel / CSV / Google Sheet</p></div>
+        <div class="card stat"><div class="big">🤖</div><h3>ต่อกับ AI</h3><p>ให้ AI สรุป แปล จัดหมวด ตรวจสอบ หรือแม้แต่ “ควบคุมเบราว์เซอร์” เอง</p></div>
+      </div>
+
+      <h2>ก่อน vs หลัง Automate</h2>
+      <div class="compare">
+        <div class="card before">
+          <h3>😩 แบบเดิม</h3>
+          <ul>
+            <li>เปิดเว็บ Login ทุกเช้า</li>
+            <li>Copy ตัวเลขจาก 5 หน้าเว็บมาวางใน Excel</li>
+            <li>ดาวน์โหลดรายงานทีละไฟล์</li>
+            <li>ส่งอีเมลสรุปให้หัวหน้า</li>
+          </ul>
+          <div class="time">⏱️ ~45 นาที / วัน</div>
+        </div>
+        <div class="card after">
+          <h3>😎 ใช้ Script</h3>
+          <ul>
+            <li>Script รันอัตโนมัติ 08:00 น.</li>
+            <li>Login + ดึงข้อมูลทุกหน้าเอง</li>
+            <li>AI สรุปประเด็นสำคัญให้ 3 บรรทัด</li>
+            <li>ส่งรายงานเข้า Email / Teams</li>
+          </ul>
+          <div class="time">⏱️ ~2 นาที (ไม่ต้องนั่งเฝ้า)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BASICS -->
+    <section id="basics" class="tab">
+      <h2>พื้นฐาน: Playwright ทำงานยังไง?</h2>
+      <p class="lead">คิดง่าย ๆ ว่า Script คือ “ผู้ช่วยที่ทำตามขั้นตอนเป๊ะ ๆ” — เปิดเบราว์เซอร์ → ไปที่หน้าเว็บ → หาปุ่ม/ช่อง → ทำ action → อ่านผลลัพธ์</p>
+
+      <div class="flow">
+        <div class="step">1<br/><small>เปิด Browser</small></div><div class="arrow">→</div>
+        <div class="step">2<br/><small>ไปที่ URL</small></div><div class="arrow">→</div>
+        <div class="step">3<br/><small>หา Element</small></div><div class="arrow">→</div>
+        <div class="step">4<br/><small>คลิก / พิมพ์</small></div><div class="arrow">→</div>
+        <div class="step">5<br/><small>อ่าน / บันทึกผล</small></div>
+      </div>
+
+      <h3>ติดตั้ง (ทำครั้งเดียว)</h3>
+      <div class="code" data-lang="bash"><pre>pip install playwright
+playwright install chromium</pre></div>
+
+      <h3>Script แรก: เปิดเว็บแล้วถ่ายภาพหน้าจอ</h3>
+      <div class="code"><pre>from playwright.sync_api import sync_playwright
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=False)  # False = เห็นหน้าจอขณะทำงาน
+    page = browser.new_page()
+    page.goto("https://example.com")
+    print("หัวข้อหน้าเว็บ:", page.title())
+    page.screenshot(path="example.png", full_page=True)
+    browser.close()</pre></div>
+
+      <h3>คำสั่งที่ใช้บ่อย (Cheat Sheet)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>อยากทำ</th><th>คำสั่ง</th></tr></thead>
+          <tbody>
+            <tr><td>ไปที่หน้าเว็บ</td><td><code>page.goto("https://...")</code></td></tr>
+            <tr><td>คลิกปุ่มจากข้อความ</td><td><code>page.get_by_role("button", name="ค้นหา").click()</code></td></tr>
+            <tr><td>พิมพ์ในช่อง</td><td><code>page.get_by_label("อีเมล").fill("me@co.com")</code></td></tr>
+            <tr><td>เลือก dropdown</td><td><code>page.select_option("#province", "กรุงเทพ")</code></td></tr>
+            <tr><td>อ่านข้อความ</td><td><code>page.locator(".price").inner_text()</code></td></tr>
+            <tr><td>อ่านทุกแถวของตาราง</td><td><code>page.locator("table tr").all_inner_texts()</code></td></tr>
+            <tr><td>รอให้ element ปรากฏ</td><td><code>page.wait_for_selector("#result")</code></td></tr>
+            <tr><td>ดาวน์โหลดไฟล์</td><td><code>with page.expect_download() as d: ...</code></td></tr>
+            <tr><td>อัปโหลดไฟล์</td><td><code>page.set_input_files("input[type=file]", "a.pdf")</code></td></tr>
+            <tr><td>บันทึกเป็น PDF</td><td><code>page.pdf(path="report.pdf")</code></td></tr>
+            <tr><td>เก็บ Login ไว้ใช้ซ้ำ</td><td><code>context.storage_state(path="auth.json")</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tip">
+        <b>💡 เคล็ดลับที่ดีที่สุดสำหรับมือใหม่: <code>playwright codegen</code></b><br/>
+        รันคำสั่ง <code>playwright codegen https://เว็บที่ต้องการ</code> แล้ว “คลิกใช้งานเว็บตามปกติ” —
+        Playwright จะ <b>เขียนโค้ด Python ให้อัตโนมัติ</b> ตามที่คุณคลิก! จากนั้นค่อยเอาโค้ดไปให้ AI ช่วยปรับต่อ
+      </div>
+    </section>
+
+    <!-- USE CASES -->
+    <section id="usecases" class="tab">
+      <h2>Use Cases: Python + Playwright ทำอะไรได้บ้าง</h2>
+      <p class="lead">คลิกที่การ์ดเพื่อดูตัวอย่างโค้ด และ <b>Prompt สำเร็จรูป</b> ที่ก๊อปไปให้ AI เขียน script ให้ได้ทันที</p>
+      <div class="filters" id="filters"></div>
+      <input id="search" class="search" placeholder="🔎 ค้นหา เช่น excel, ฟอร์ม, pdf, ราคา..." />
+      <div class="grid3" id="usecaseGrid"></div>
+    </section>
+
+    <!-- DEPARTMENT -->
+    <section id="dept" class="tab">
+      <h2>ไอเดีย Automate ตามแผนก</h2>
+      <p class="lead">เลือกแผนกของคุณ เพื่อดูงานที่น่าจะ automate ได้</p>
+      <div class="filters" id="deptButtons"></div>
+      <div id="deptIdeas" class="ideas"></div>
+    </section>
+
+    <!-- AI -->
+    <section id="ai" class="tab">
+      <h2>AI + Playwright: 3 รูปแบบการใช้งาน</h2>
+      <div class="grid3">
+        <div class="card pattern">
+          <div class="badge">รูปแบบ 1</div>
+          <h3>🧑‍💻 AI เขียน Script ให้</h3>
+          <p>คุณอธิบายงาน → AI (เช่น Claude) เขียนโค้ด Python + Playwright → คุณรันเอง</p>
+          <p class="muted">เหมาะกับ: งานที่ขั้นตอนชัดเจน ทำซ้ำเหมือนเดิมทุกครั้ง · ถูกที่สุด เพราะเรียก AI แค่ตอนเขียน</p>
+        </div>
+        <div class="card pattern">
+          <div class="badge">รูปแบบ 2</div>
+          <h3>🔗 Script เรียก AI ระหว่างทาง</h3>
+          <p>Playwright ดึงข้อมูล → ส่งให้ AI สรุป/จัดหมวด/แปล/ตรวจ → บันทึกผล</p>
+          <p class="muted">เหมาะกับ: ข้อมูลเป็นข้อความที่ต้อง “คิด” เช่น รีวิวลูกค้า อีเมล ข่าว สัญญา</p>
+        </div>
+        <div class="card pattern">
+          <div class="badge">รูปแบบ 3</div>
+          <h3>🕹️ AI Agent ควบคุม Browser เอง</h3>
+          <p>สั่งเป้าหมาย เช่น “หาราคาตั๋วถูกสุดวันศุกร์นี้” → AI ตัดสินใจเองว่าจะคลิกอะไร (ผ่าน Playwright MCP / Claude in Chrome)</p>
+          <p class="muted">เหมาะกับ: งานที่หน้าเว็บเปลี่ยนบ่อย หรือขั้นตอนไม่แน่นอน · ช้าและแพงกว่า ต้องมีคนตรวจ</p>
+        </div>
+      </div>
+
+      <h2>🧭 เลือก Model ให้เหมาะกับงาน (Model Routing)</h2>
+      <p class="lead">ไม่จำเป็นต้องใช้ model ที่แพงที่สุดกับทุกงาน — ให้ Script <b>เลือก model ตามความยากของงาน</b> ช่วยประหยัดได้มาก</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ประเภทงาน</th><th>ตัวอย่าง</th><th>Model ที่แนะนำ</th></tr></thead>
+          <tbody>
+            <tr><td>🟢 ง่าย / ปริมาณมาก</td><td>จัดหมวดรีวิว บวก/ลบ, ดึงเบอร์โทรจากข้อความ, แปลสั้น ๆ</td><td><code>claude-haiku-5-5</code> — เร็ว ถูกมาก</td></tr>
+            <tr><td>🟡 งานทั่วไป</td><td>สรุปรายงาน, เขียนอีเมลตอบลูกค้า, เปรียบเทียบข้อมูล</td><td><code>claude-sonnet-5-5</code> — สมดุลเร็ว/เก่ง</td></tr>
+            <tr><td>🔴 ซับซ้อน / ต้องแม่น</td><td>วิเคราะห์สัญญา, เขียน Script automate ทั้งระบบ, วางแผนหลายขั้นตอน</td><td><code>claude-opus-5-5</code> — เก่งที่สุดในราคาสมเหตุผล</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="router">
+        <h3>ลองเลย: ให้ระบบเลือก Model ให้</h3>
+        <textarea id="routerInput" rows="2" placeholder="พิมพ์งานที่จะให้ AI ทำ เช่น 'จัดหมวดรีวิวลูกค้า 500 รายการว่าบวกหรือลบ'"></textarea>
+        <button class="btn primary" id="routerBtn">เลือก Model ให้หน่อย</button>
+        <div id="routerOut" class="router-out"></div>
+      </div>
+
+      <h3>ตัวอย่างโค้ด: Playwright ดึงข้อมูล → Script เลือก Model ตามงาน → AI ประมวลผล</h3>
+      <div class="code"><pre id="aiRouterCode"></pre></div>
+
+      <div class="tip warn">
+        <b>⚠️ ข้อควรระวังเมื่อใช้ AI</b>
+        <ul>
+          <li>ห้ามส่งข้อมูลลับ/ข้อมูลส่วนบุคคลลูกค้าให้ AI ภายนอก หากยังไม่ได้รับอนุมัติตามนโยบายบริษัท</li>
+          <li>เก็บ API Key ไว้ใน environment variable (<code>ANTHROPIC_API_KEY</code>) — ห้าม hard-code ในไฟล์</li>
+          <li>ตรวจผลลัพธ์จาก AI ก่อนนำไปใช้จริงเสมอ โดยเฉพาะตัวเลขและการตัดสินใจสำคัญ</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PROMPT BUILDER -->
+    <section id="builder" class="tab">
+      <h2>🛠️ Prompt Builder: ให้ AI เขียน Script ให้คุณ</h2>
+      <p class="lead">กรอกข้อมูลด้านล่าง ระบบจะสร้าง Prompt ที่ชัดเจนให้ ก๊อปไปวางใน Claude / ChatGPT / Copilot ได้ทันที</p>
+      <div class="builder">
+        <form id="builderForm">
+          <label>1. งานนี้คืออะไร (สั้น ๆ)
+            <input name="goal" placeholder="เช่น ดึงรายการคำสั่งซื้อใหม่ทุกเช้าจากระบบหลังบ้าน" />
+          </label>
+          <label>2. เว็บไซต์ / URL
+            <input name="url" placeholder="https://backoffice.example.com" />
+          </label>
+          <label>3. ขั้นตอนที่คุณทำเองทุกวัน (ทีละบรรทัด)
+            <textarea name="steps" rows="5" placeholder="Login ด้วย user/password&#10;คลิกเมนู 'คำสั่งซื้อ'&#10;กรองสถานะ = 'ใหม่'&#10;อ่านตารางทุกหน้า"></textarea>
+          </label>
+          <label>4. ต้องการผลลัพธ์แบบไหน
+            <select name="output">
+              <option>ไฟล์ Excel (.xlsx)</option>
+              <option>ไฟล์ CSV</option>
+              <option>ภาพหน้าจอ / PDF</option>
+              <option>ส่งอีเมล / แจ้งเตือนใน Teams</option>
+              <option>แสดงผลบนหน้าจอ</option>
+            </select>
+          </label>
+          <label>5. ใช้ AI ช่วยประมวลผลข้อมูลไหม
+            <select name="ai">
+              <option value="none">ไม่ใช้ — ดึงข้อมูลอย่างเดียว</option>
+              <option value="summary">ใช้ — สรุปเนื้อหา</option>
+              <option value="classify">ใช้ — จัดหมวดหมู่ / ติด tag</option>
+              <option value="extract">ใช้ — ดึงข้อมูลสำคัญเป็นโครงสร้าง (JSON)</option>
+            </select>
+          </label>
+          <label>6. ระดับความรู้ Python ของคุณ
+            <select name="level">
+              <option value="beginner">มือใหม่ — อธิบายละเอียดทุกบรรทัด</option>
+              <option value="mid">พอเขียนได้</option>
+              <option value="pro">คล่อง — ขอโค้ดอย่างเดียว</option>
+            </select>
+          </label>
+          <label class="check"><input type="checkbox" name="schedule" /> ต้องการให้รันอัตโนมัติตามเวลา (เช่น ทุกเช้า 8 โมง)</label>
+          <label class="check"><input type="checkbox" name="login" checked /> เว็บนี้ต้อง Login</label>
+        </form>
+        <div class="builder-out">
+          <div class="out-head">
+            <b>Prompt ที่ได้</b>
+            <span id="modelHint" class="pill"></span>
+            <button class="btn small" id="copyPrompt">📋 Copy</button>
+          </div>
+          <pre id="promptOut"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- START -->
+    <section id="start" class="tab">
+      <h2>🚀 เริ่มต้นใช้งานใน 5 ขั้นตอน</h2>
+      <ol class="roadmap">
+        <li><b>เลือกงาน 1 อย่าง</b> ที่น่าเบื่อ ทำซ้ำทุกวัน และใช้เวลา &gt; 15 นาที</li>
+        <li><b>จดขั้นตอน</b> ที่คุณทำเองแบบละเอียด (คลิกอะไร พิมพ์อะไร ได้ผลอะไร)</li>
+        <li><b>ใช้ Prompt Builder</b> สร้าง prompt แล้วให้ AI เขียน script</li>
+        <li><b>ทดสอบกับข้อมูลน้อย ๆ ก่อน</b> เปิด <code>headless=False</code> เพื่อดูว่ามันคลิกถูกไหม — ถ้า error ให้ copy error ไปถาม AI</li>
+        <li><b>ตั้งเวลาให้รันเอง</b> ด้วย Windows Task Scheduler / cron แล้วแชร์ให้ทีม</li>
+      </ol>
+
+      <h2>✅ ควรทำ / ❌ ไม่ควรทำ</h2>
+      <div class="compare">
+        <div class="card after">
+          <h3>✅ ควรทำ</h3>
+          <ul>
+            <li>Automate ระบบที่คุณมีสิทธิ์ใช้งานอยู่แล้ว</li>
+            <li>ใส่ <code>wait</code> / หน่วงเวลา ไม่ยิงเว็บถี่เกินไป</li>
+            <li>เก็บรหัสผ่านใน <code>.env</code> หรือ Credential Manager</li>
+            <li>บันทึก log และภาพหน้าจอเมื่อ error</li>
+            <li>ให้ IT / Security รีวิวก่อนใช้กับระบบสำคัญ</li>
+          </ul>
+        </div>
+        <div class="card before">
+          <h3>❌ ไม่ควรทำ</h3>
+          <ul>
+            <li>ดึงข้อมูลจากเว็บที่ห้ามใน Terms of Service</li>
+            <li>ข้าม CAPTCHA หรือระบบป้องกันของเว็บ</li>
+            <li>Hard-code รหัสผ่านไว้ในโค้ดแล้วแชร์ต่อ</li>
+            <li>ปล่อยให้ AI กดยืนยันธุรกรรม/จ่ายเงินโดยไม่มีคนตรวจ</li>
+            <li>ส่งข้อมูลลูกค้าเข้า AI ภายนอกโดยไม่ได้รับอนุญาต</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>❓ คำถามที่พบบ่อย</h2>
+      <details><summary>ต้องเขียนโปรแกรมเป็นไหม?</summary><p>ไม่จำเป็นต้องเก่ง — ใช้ <code>playwright codegen</code> อัดการคลิก + ให้ AI ช่วยเขียน/แก้โค้ด แค่ต้องติดตั้ง Python และรันคำสั่งได้</p></details>
+      <details><summary>Playwright ต่างจาก Selenium ยังไง?</summary><p>Playwright ใหม่กว่า รอ element ให้อัตโนมัติ (error น้อยกว่า) รองรับ Chrome/Edge/Firefox/Safari มี codegen และ trace viewer ในตัว</p></details>
+      <details><summary>ใช้กับโปรแกรม Desktop (เช่น SAP GUI, Excel) ได้ไหม?</summary><p>Playwright ใช้กับ “เว็บ” เท่านั้น สำหรับ Excel ใช้ <code>openpyxl</code>/<code>pandas</code> ส่วนโปรแกรม Desktop ใช้ <code>pywinauto</code> หรือเครื่องมือ RPA อื่น ๆ — แต่ระบบสมัยใหม่หลายตัวมีเวอร์ชันเว็บซึ่ง Playwright ทำได้</p></details>
+      <details><summary>ถ้าหน้าเว็บเปลี่ยน script จะพังไหม?</summary><p>อาจพังได้ ควรใช้ locator ที่อิงข้อความ/role (<code>get_by_role</code>, <code>get_by_label</code>) ซึ่งทนกว่าการอิง CSS class และเมื่อพังให้ส่ง error + HTML ให้ AI ช่วยแก้</p></details>
+      <details><summary>ใช้ AI เรียกเว็บแทนเขียน script ไปเลยดีกว่าไหม?</summary><p>ถ้างานทำซ้ำเหมือนเดิมทุกวัน “script” ถูกกว่า เร็วกว่า และแน่นอนกว่า ใช้ AI agent เมื่อขั้นตอนไม่แน่นอนหรือทำนาน ๆ ครั้ง</p></details>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-box">
+      <button class="close" id="modalClose">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <footer>สร้างเพื่อการเรียนรู้ภายในองค์กร · Python + Playwright + AI</footer>
+  <script src="app.js"></script>
+</body>
+</html>
